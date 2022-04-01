@@ -1,0 +1,29 @@
+{
+  "name": "vim-nft-snapshot",
+  "version": "1.0.0",
+  "description": "Script to parse liquidity provision and removal to determine NFT eligibility",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vexchange/vim-nft-snapshot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vexchange/vim-nft-snapshot/issues"
+  },
+  "homepage": "https://github.com/vexchange/vim-nft-snapshot#readme",
+  "dependencies": {
+    "@vechain/connex": "^2.0.9",
+    "ethers": "^5.6.2",
+    "lodash": "^4.17.21",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.181"
+  }
+}
