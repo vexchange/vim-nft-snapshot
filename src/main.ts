@@ -36,12 +36,12 @@ async function Main()
 
     while (!lEnd)
     {
-        const result: Connex.Thor.Filter.Row<"event", Connex.Thor.Account.WithDecoded>[] =
+        const lResult: Connex.Thor.Filter.Row<"event", Connex.Thor.Account.WithDecoded>[] =
             await lTransferEventFilter.apply(lOffset, lLimit);
 
-        for (const transaction of result)
+        for (const lTransaction of lResult)
         {
-            const lSender = transaction.meta.txOrigin;
+            const lSender = lTransaction.meta.txOrigin;
 
             if (!lAccountBalances.has(lSender))
             {
@@ -52,18 +52,18 @@ async function Main()
             if (lPrevBal !== undefined)
             {
                 // liquidity provision operation
-                if (transaction.decoded.from === ethers.constants.AddressZero)
+                if (lTransaction.decoded.from === ethers.constants.AddressZero)
                 {
-                    lAccountBalances.set(lSender, lPrevBal.add(transaction.decoded.value));
+                    lAccountBalances.set(lSender, lPrevBal.add(lTransaction.decoded.value));
                 }
                 // liquidity removal operation
-                else if (transaction.decoded.to === ethers.constants.AddressZero)
+                else if (lTransaction.decoded.to === ethers.constants.AddressZero)
                 {
-                    lAccountBalances.set(lSender, lPrevBal.sub(transaction.decoded.value));
+                    lAccountBalances.set(lSender, lPrevBal.sub(lTransaction.decoded.value));
                 }
                 // intermediate transactions to the pair contract for burning, ignore
-                else if (transaction.decoded.to === VEED_VET_PAIR_ADDRESS.toLowerCase() ||
-                         transaction.decoded.from === VEED_VET_PAIR_ADDRESS.toLowerCase())
+                else if (lTransaction.decoded.to === VEED_VET_PAIR_ADDRESS.toLowerCase() ||
+                         lTransaction.decoded.from === VEED_VET_PAIR_ADDRESS.toLowerCase())
                 {}
                 // other transfers of the LP token, ignore
                 else
@@ -71,7 +71,7 @@ async function Main()
             }
         }
 
-        if (result.length === lLimit) lOffset += lLimit;
+        if (lResult.length === lLimit) lOffset += lLimit;
         else lEnd = true;
     }
 
@@ -104,12 +104,12 @@ async function Main()
 
     while (!lEnd)
     {
-        const result: Connex.Thor.Filter.Row<"event", Connex.Thor.Account.WithDecoded>[] =
+        const lResult: Connex.Thor.Filter.Row<"event", Connex.Thor.Account.WithDecoded>[] =
             await lTransferEventFilter31Mar.apply(lOffset, lLimit);
 
-        for (const transaction of result)
+        for (const lTransaction of lResult)
         {
-            const lSender = transaction.meta.txOrigin;
+            const lSender = lTransaction.meta.txOrigin;
 
             // ignore events that don't concern the already shortlisted wallets
             if (!lMar3Snapshot.has(lSender))
@@ -121,24 +121,24 @@ async function Main()
             if (lPrevBal !== undefined)
             {
                 // liquidity provision operation
-                if (transaction.decoded.from === ethers.constants.AddressZero)
+                if (lTransaction.decoded.from === ethers.constants.AddressZero)
                 {
-                    lMar3Snapshot.set(lSender, lPrevBal.add(transaction.decoded.value));
+                    lMar3Snapshot.set(lSender, lPrevBal.add(lTransaction.decoded.value));
                 }
                 // liquidity removal operation
-                else if (transaction.decoded.to === ethers.constants.AddressZero)
+                else if (lTransaction.decoded.to === ethers.constants.AddressZero)
                 {
-                    lMar3Snapshot.set(lSender, lPrevBal.sub(transaction.decoded.value));
+                    lMar3Snapshot.set(lSender, lPrevBal.sub(lTransaction.decoded.value));
                 }
                 // intermediate transactions to the pair contract for burning, ignore
-                else if (transaction.decoded.to === VEED_VET_PAIR_ADDRESS.toLowerCase() ||
-                    transaction.decoded.from === VEED_VET_PAIR_ADDRESS.toLowerCase())
+                else if (lTransaction.decoded.to === VEED_VET_PAIR_ADDRESS.toLowerCase() ||
+                    lTransaction.decoded.from === VEED_VET_PAIR_ADDRESS.toLowerCase())
                 {}
                 // other transfers of the LP token, ignore
                 else {}
             }
         }
-        if (result.length === lLimit) lOffset += lLimit;
+        if (lResult.length === lLimit) lOffset += lLimit;
         else lEnd = true;
     }
 
