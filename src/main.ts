@@ -77,7 +77,8 @@ async function Main()
 
     const lMar3Snapshot: Map<string, BigNumber>  = new Map();
 
-    lAccountBalances.forEach((aBal, aWallet) => {
+    lAccountBalances.forEach((aBal, aWallet) =>
+    {
         if (aBal.gte(LP_TOKEN_AMOUNT_THRESHOLD))
         {
             lMar3Snapshot.set(aWallet, aBal)
@@ -85,7 +86,8 @@ async function Main()
     })
 
     console.log("Accounts >= 53600 LP tokens as of 3 Mar 0000 UTC+0 ")
-    lMar3Snapshot.forEach((aBal, aWallet) => {
+    lMar3Snapshot.forEach((aBal, aWallet) =>
+    {
         console.log(aWallet, formatEther(aBal.toString()))
     })
     console.log("Total number of wallets: ", lMar3Snapshot.size)
@@ -141,7 +143,8 @@ async function Main()
     }
 
     const lEligibleWallets: Map<string, BigNumber> = new Map();
-    lMar3Snapshot.forEach((aBal, aWallet) => {
+    lMar3Snapshot.forEach((aBal, aWallet) =>
+    {
         if (aBal.gte(LP_TOKEN_AMOUNT_THRESHOLD))
         {
             lEligibleWallets.set(aWallet, aBal)
@@ -149,7 +152,8 @@ async function Main()
     })
 
     console.log("Accounts >= 53600 LP tokens as of 31 Mar 235950 UTC+0 ")
-    lEligibleWallets.forEach((aBal, aWallet) => {
+    lEligibleWallets.forEach((aBal, aWallet) =>
+    {
         console.log(aWallet, formatEther(aBal.toString()))
     })
     console.log("Total number of wallets: ", lEligibleWallets.size)
